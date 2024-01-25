@@ -28,15 +28,18 @@ public class ClienteRestController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> getCliente(@PathVariable String username){
-        /*for (Cliente cli : clientes){
-            if(cli.getUsername().equalsIgnoreCase(username)){
-                return cli;
+
+        for(Cliente cliente : clientes){
+            if(cliente.getUsername().equalsIgnoreCase(username)){
+                //En este caso el usario fue encontrado y retornamos
+                //el código 200 ok con el cliente con el cliente en le body de respuesta
+                return ResponseEntity.ok(cliente);
             }
+
         }
-        return null;*/
-        return ResponseEntity.ok(clientes.stream().
-                filter(cliente -> cliente.getUsername().equalsIgnoreCase(username))
-                .findFirst().orElseThrow());
+        //Si la ejecución llega a este segmento, es porque no encontró el usuario.
+        //En este caso se contruye una respusta con el código NOT FOUND 400.
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
