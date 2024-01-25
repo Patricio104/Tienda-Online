@@ -29,15 +29,11 @@ public class ClienteRestController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> getCliente(@PathVariable String username){
-
-        for(Cliente cliente : clientes){
-            if(cliente.getUsername().equalsIgnoreCase(username)){
-                return ResponseEntity.ok(cliente);
-            }
-
-        }
-        //Se usa la exception creada
-        throw new ResourceNotFoundException("Cliente no encontrado");
+        return clientes.stream().
+                filter(cliente -> cliente.getUsername().equalsIgnoreCase(username))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente "+username+" no encontrado"));
     }
 
     @PostMapping
