@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clientes")
 public class ClienteRestController {
 
     private List<Cliente> clientes = new ArrayList<>(Arrays.asList(
@@ -17,12 +18,12 @@ public class ClienteRestController {
             new Cliente("mrs", "mrs123", "Maga")
     ));
 
-    @GetMapping("/clientes")
+    @GetMapping
     public List<Cliente> getClientes() {
         return clientes;
     }
 
-    @GetMapping("/clientes/{username}")
+    @GetMapping("/{username}")
     public Cliente getCliente(@PathVariable String username){
         /*for (Cliente cli : clientes){
             if(cli.getUsername().equalsIgnoreCase(username)){
@@ -35,13 +36,13 @@ public class ClienteRestController {
                 .findFirst().orElseThrow();
     }
 
-    @PostMapping("/clientes")
+    @PostMapping
     public Cliente altaCliente (@RequestBody Cliente cliente){
         clientes.add(cliente);
         return cliente;
     }
 
-    @PutMapping("/clientes")
+    @PutMapping
     public Cliente modificacionCliente(@RequestBody Cliente cliente){
 
         Cliente clienteEncontrado = clientes.stream().
@@ -54,7 +55,7 @@ public class ClienteRestController {
         return clienteEncontrado;
     }
 
-    @DeleteMapping("/clientes/{userName}")
+    @DeleteMapping("/{userName}")
     public void borrarCliente(@PathVariable String userName){
         Cliente clienteEncontrado = clientes.stream().
                 filter(cli -> cli.getUsername().equalsIgnoreCase(userName)).
