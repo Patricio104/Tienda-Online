@@ -1,6 +1,7 @@
 package edu.tienda.cor.controllers;
 
 import edu.tienda.cor.controllers.domain.Cliente;
+import edu.tienda.cor.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,15 +32,12 @@ public class ClienteRestController {
 
         for(Cliente cliente : clientes){
             if(cliente.getUsername().equalsIgnoreCase(username)){
-                //En este caso el usario fue encontrado y retornamos
-                //el código 200 ok con el cliente con el cliente en le body de respuesta
                 return ResponseEntity.ok(cliente);
             }
 
         }
-        //Si la ejecución llega a este segmento, es porque no encontró el usuario.
-        //En este caso se contruye una respusta con el código NOT FOUND 400.
-        return ResponseEntity.notFound().build();
+        //Se usa la exception creada
+        throw new ResourceNotFoundException("Cliente no encontrado");
     }
 
     @PostMapping
